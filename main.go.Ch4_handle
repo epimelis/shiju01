@@ -1,0 +1,35 @@
+package main
+
+import (
+	"fmt"
+	"net/http"
+)
+
+//In Go, any object can be an implementation of http.Handler 
+// if it can provide a method with the signature ServeHTTP(http.ResponseWriter, *http.Request).
+//create custom handler by implementing the http.Handler interface !!!
+func index(w http.ResponseWriter, r *http.Request) {
+	
+}
+func main() {
+
+	mux :=http.NewServeMux()
+	fs :=http.FileServer(http.Dir("public"))
+	
+	//mux.Handle("/static/", http.StripPrefix("/static/", filesHandler))
+	
+	mux.Handle("/", fs)
+	
+	
+	/*
+	server :=&http.Server{
+		Addr:":8080",
+		Handler: mux,
+	}
+	server.ListenAndServe()
+	*/
+	fmt.Println("Listening....")
+	http.ListenAndServe(":9090", mux)
+
+
+}
